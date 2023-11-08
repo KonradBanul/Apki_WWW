@@ -1,6 +1,13 @@
 from django.db import models
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Create your models here.
+
+
+def validate_letters(value):
+    if not value.isalpha():
+        raise ValidationError("Nazwa może zawierać tylko litery.")
 
 
 class Stanowisko(models.Model):
@@ -20,7 +27,11 @@ class Osoba(models.Model):
     nazwisko = models.CharField(max_length=40)
     plec = models.IntegerField(choices=Plec.choices)
     stanowisko = models.ForeignKey(Stanowisko, on_delete=models.CASCADE)
-    data_dodania = models.DateField(auto_now_add=True)
+    data_dodania = models.DateField(default=timezone.now)
+
+    def clean(self):
+        if self.data_dodania > timezone.now():
+            raise ValidationError("Data dodania nie może być z przyszłości.")
 
     def __str__(self):
         return f'{self.imie} {self.nazwisko}'
