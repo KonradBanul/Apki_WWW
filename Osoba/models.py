@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -28,6 +29,7 @@ class Osoba(models.Model):
     plec = models.IntegerField(choices=Plec.choices)
     stanowisko = models.ForeignKey(Stanowisko, on_delete=models.CASCADE)
     data_dodania = models.DateField(default=timezone.now)
+    wlasciciel = models.ForeignKey('auth.User', related_name='persons', on_delete=models.CASCADE, default=1)
 
     def clean(self):
         if self.data_dodania > timezone.now():

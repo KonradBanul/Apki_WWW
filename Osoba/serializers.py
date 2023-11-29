@@ -1,5 +1,14 @@
 from rest_framework import serializers
 from .models import Osoba, Stanowisko
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    persons = serializers.PrimaryKeyRelatedField(many=True, queryset=Osoba.objects.all())
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'persons']
 
 
 class StanowiskoSerializer(serializers.ModelSerializer):
