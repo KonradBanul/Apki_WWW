@@ -20,6 +20,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def person_list(request):
     if request.method == 'GET':
         person = Osoba.objects.filter(wlasciciel=request.user)
@@ -35,6 +36,7 @@ def person_list(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def person_detail(request, pk):
     try:
         person = Osoba.objects.get(pk=pk)
@@ -66,6 +68,7 @@ def person_update(request, pk):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def person_delete(request, pk):
     try:
         person = Osoba.objects.get(pk=pk)
@@ -78,6 +81,7 @@ def person_delete(request, pk):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def job_list(request):
     if request.method == 'GET':
         job = Stanowisko.objects.all()
@@ -86,6 +90,7 @@ def job_list(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def job_detail(request, pk):
     try:
         job = Stanowisko.objects.get(pk=pk)
@@ -121,6 +126,7 @@ def job_update_delete(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def job_members(request, pk):
     try:
         job = Stanowisko.objects.get(pk=pk)

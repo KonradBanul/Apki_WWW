@@ -29,7 +29,7 @@ class Osoba(models.Model):
     plec = models.IntegerField(choices=Plec.choices)
     stanowisko = models.ForeignKey(Stanowisko, on_delete=models.CASCADE)
     data_dodania = models.DateField(default=timezone.now)
-    wlasciciel = models.ForeignKey('auth.User', related_name='persons', on_delete=models.CASCADE, default=1)
+    wlasciciel = models.ForeignKey(User, related_name='persons', on_delete=models.CASCADE, default=1)
 
     def clean(self):
         if self.data_dodania > timezone.now():
